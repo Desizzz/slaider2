@@ -46,7 +46,6 @@
         function renderCirlcePanel() {
             const image = document.querySelectorAll('.circle')
             for(let i = 0; i < mass.length; i++) {
-                console.log(image[i], -state.currentIndex)
                 if(i == -state.currentIndex) {
                     image[i].style.background = 'red'
                 } else {
@@ -56,19 +55,22 @@
             
         }
 
+        const renderButtons = () => {
+            right.classList.add('disabled')
+            left.classList.add('disabled')
+            setTimeout(() => {
+                right.classList.remove('disabled')
+                left.classList.remove('disabled')
+            }, 1000)
+        }
+
         const state = {
             currentIndex: 0,
         };
 
         function renderImages() { 
             wrapper.style.left = 480 * state.currentIndex + 'px'
-            right.classList.remove('disabled')  
-            left.classList.remove('disabled')  
-            setTimeout(
-                () => {
-                    right.classList.remove('disabled')
-                    left.classList.remove('disabled')  
-                },1000)
+            renderButtons()
         }
         
         function render() {
