@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="right"></div>
+    <div id="container">
+        <div id="wrapper"></div>
+    </div>
+    <div id="circles"></div>
+    <div class="div"></div>
+    <div id="left"></div>
+
+    <script>
+        let mass = ['./image/i1.webp', './image/i.webp', './image/i2.webp', './image/i3.webp', './image/i4.webp', './image/i5.webp']
+        const left = document.getElementById('left')
+        const right = document.getElementById('right')
+        const wrapper = document.getElementById('wrapper')
+        const container = document.getElementById('container')
+        const circlesId = document.getElementById('circles')
+        wrapper.style.width = mass.length * 480 + 'px'
+        wrapper.style.left = '0px'
+        
+        for(let i = 0; i < mass.length; i++) {
+            const div = document.createElement("div");
+            div.classList.add('image')
+            div.setAttribute('id', `img${i}`)
+            div.style.backgroundImage = `url(${mass[i]})`
+            console.log(div.style.backgroundImage)
+            wrapper.append(div)
+        }
+
+        for(let i = 0; i < mass.length; i++) {
+            const circle = document.createElement("div");
+            circle.classList.add('circle')
+            circle.setAttribute('id', `circle${i}`)
+            const circleId = document.getElementById(`circle${i}`)
+            circlesId.append(circle)
+        }
+        
+        function renderCirlcePanel() {
+            const image = document.querySelectorAll('.circle')
+            for(let i = 0; i < mass.length; i++) {
+                console.log(image[i], -state.currentIndex)
+                if(i == -state.currentIndex) {
+                    image[i].style.background = 'red'
+                } else {
+                    image[i].style.background = 'black'
+                }
+            }
+            
+        }
+
+        const state = {
+            currentIndex: 0,
+        };
+
+        function renderImages() { 
+            wrapper.style.left = 480 * state.currentIndex + 'px'
+            right.classList.remove('disabled')  
+            left.classList.remove('disabled')  
+            setTimeout(
+                () => {
+                    right.classList.remove('disabled')
+                    left.classList.remove('disabled')  
+                },1000)
+        }
+        
+        function render() {
+            renderCirlcePanel();
+            renderImages();
+        }
+        
+        
+        left.addEventListener("click", () => {
+            state.currentIndex += 1;
+            if (state.currentIndex > 0) {
+                state.currentIndex = -mass.length + 1
+            }
+            render();
+            left.classList.add('disabled')
+        });
+        
+        right.addEventListener("click", () => {
+            state.currentIndex -= 1;
+            if (state.currentIndex < -mass.length+1) {
+                state.currentIndex = 0
+            }
+            render();
+            right.classList.add('disabled')
+        });
+
+        for(i = 0; i < mass.length; i++) {
+            const circleId = document.getElementById(`circle${i}`)
+            circleId.addEventListener("click", () => {
+                state.currentIndex = -parseInt(event.target.id.replace('circle', ''))
+                render();
+            })
+        }
+
+
+    </script>
+    <!-- right.addEventListener("click", () => {
+    state.currentIndex -= 1;
+    if (parseInt(wrapper.style.left.replace('px', ''))/480 - 1 <= -parseInt(wrapper.style.width.replace('px', '' ))/480) {
+        state.currentIndex=0 } render(); }); -->
+</body>
+</html>
